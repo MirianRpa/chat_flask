@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <title>Chat mimis</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
 <script type="text/javascript">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var socket = io.connect('https://' + document.domain + ':' + location.port);
     socket.on('connect', function () {
         console.log('Conectado al servidor!');
     });
