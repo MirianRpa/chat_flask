@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat mimis</title>
+</head>
+<body>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<h1>Chat de la mimis</h1>
+<div id="messages"></div>
+<form action="" method="post">
+    <input type="text" id="username" name="username" placeholder="Usuario">
+    <input type="text" id="message" name="message" placeholder="Escribe tu mensaje...">
+    <button type="submit" id="send">Enviar</button>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script type="text/javascript">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function () {
+        console.log('Conectado al servidor!');
+    });
+    $(document).ready(function () {
+        $('form').submit(function (event) {
+            event.preventDefault();
+            var username = $('#username').val();
+            var message = $('#message').val();
+            socket.emit('mensaje', {'username': username, 'mensaje': message});
+            $('#message').val('').focus();
+        });
+        socket.on('mensaje', function (data) {
+            var username = data.username;
+            var message = data.mensaje;
+            $('#messages').append('<p><strong>' + username + ':</strong> ' + message + '</p>');
+        });
+    });
+</script>
+</body>
+</html>
