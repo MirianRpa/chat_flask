@@ -12,7 +12,7 @@ def index():
 
 
 @socketio.on('mensaje')
-def handle_mensaje(data):
+async def handle_mensaje(data):
     if 'mensaje' not in data or not data['mensaje']:
         emit('mensaje', {'username': 'Error', 'mensaje': 'Mensaje vacío o mal formado.'})
         return
@@ -21,8 +21,8 @@ def handle_mensaje(data):
     else:
         username = 'Anónimo'
     message = data['mensaje']
-    emit('mensaje', {'username': username, 'mensaje': message}, broadcast=True)
+    await socketio.emit('mensaje', {'username': username, 'mensaje': message}, broadcast=True)
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=443)
+    socketio.run(app, host='0.0.0.0', port=5000)
